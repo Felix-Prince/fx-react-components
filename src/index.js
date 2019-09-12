@@ -18,22 +18,41 @@ const data = [
     },
 ]
 
-const renderItem = (item) => {
-    return (
-        <List.Item>
-            {item.title}
-        </List.Item>
-    )
-}
+class App extends React.Component {
 
-const App = () => {
-    return (<div>
-        <FoldList
-            header={<div>{'header'}</div>}
-            dataSource={data}
-            renderItem={renderItem}
-        />
-    </div>)
+    state = {
+        isFold: false
+    }
+
+    renderItem = (item) => {
+        return (
+            <List.Item>
+                {item.title}
+            </List.Item>
+        )
+    }
+
+    handleFold = () => {
+        this.setState({
+            isFold: !this.state.isFold
+        })
+    }
+
+
+    render() {
+        return (<div>
+            <FoldList
+                header={<div>{'header'}</div>}
+                dataSource={data}
+                renderItem={this.renderItem}
+            />
+            <FoldList
+                header={<div>{'header'}</div>}
+                dataSource={data}
+                renderItem={this.renderItem}
+            />
+        </div>)
+    }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))

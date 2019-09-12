@@ -1,27 +1,40 @@
 import { List, Row, Col, Icon } from 'antd'
 import React from 'react';
 
-const FoldList = (props) => {
-    const { dataSource, renderItem, header, itemLayout } = props
+class FoldList extends React.Component {
 
-    const renderHeader = () => {
+    state = {
+        isFold: false,
+        iconType: 'up'
+    }
+    onFold = () => {
+        this.setState({
+            isFold: !this.state.isFold,
+            iconType: !this.state.isFold ? "down" : 'up'
+        })
+    }
+
+    renderHeader = () => {
         return (
             <div>
                 <Row type='flex' justify='space-between'>
-                    <Col>{header}</Col>
-                    <Col><Icon type='up' /></Col>
+                    <Col>{this.props.header}</Col>
+                    <Col><Icon type={this.state.iconType} onClick={this.onFold} /></Col>
                 </Row>
             </div>
         )
     }
-
-    return (
-        <List
-            header={renderHeader()}
-            itemLayout={itemLayout}
-            dataSource={dataSource}
-            renderItem={(item) => renderItem(item)}
-        />
-    )
+    render() {
+        const { dataSource, renderItem, itemLayout } = this.props
+        const { isFold } = this.state
+        return (
+            <List
+                header={this.renderHeader()}
+                itemLayout={itemLayout}
+                dataSource={dataSource}
+                renderItem={(item) => isFold ? <></> : renderItem(item)}
+            />
+        )
+    }
 }
 export default FoldList
